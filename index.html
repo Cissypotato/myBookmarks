@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>私人定制nav</title>
+	<link rel="stylesheet" type="text/css" href="./index.css">
+</head>
+<body>
+	<header></header>
+	<main>
+		<div id="wrapper"></div>
+	</main>
+	<footer></footer>
+	
+	<script>
+	 var key={
+	 	0:['q','w','e','r','t','y','u','i','o','p'],
+	 	1:['a','s','d','f','g','h','j','k','l'],
+	 	2:['z','x','c','v','b','n','m'],
+	 	length:3
+	 }
+	 var hash={
+	 	q:'qq.com',
+	 	w:'weibo.com',
+	 	e:'ele.com',
+	 	r:'renren.com',
+	 	t:'youtube.com',
+	 	y:'tianya.com',
+	 	u:'uc.com',
+	 	i:'iqiyi.com',
+	 	o:'opera.com',
+	 	p:undefined,
+	 	a:'acfun.tv',
+	 	s:'sohu.cn',
+	 	z:'zhihu.com',
+	 	m:''
+	 }
+	 var hashInLocalstorage = JSON.parse(localStorage.getItem('zzz') || 'null');
+	 if (hashInLocalstorage) {
+	 	hash=hashInLocalstorage;
+	 }
+	 for(var i=0;i<key.length;i++){
+	 	var row=key[i];
+	 	var divxx=document.createElement('div');
+	    var wrapper=document.getElementById('wrapper');
+        wrapper.appendChild(divxx);
+	 	for(var n=0;n<row.length;n++){
+	 		var kbdxx=document.createElement('kbd');
+	 		var buttonx=document.createElement('button');
+	 		buttonx.textContent="编辑";
+	 		buttonx.id=row[n];
+	 		buttonx.onclick=function(argument){
+	 			var key=argument.target.id;
+	 			x=prompt('请输入你想要你保存的快捷网址');
+	 			hash[key]=x;
+	 			localStorage.setItem('zzz',JSON.stringify(hash));
+	 		}
+	 		kbdxx.textContent=row[n];
+	 		kbdxx.appendChild(buttonx);
+	 		divxx.appendChild(kbdxx);
+
+	    }
+
+	 }
+
+	 document.onkeypress=function (argument) {
+	 	console.log(argument.key);
+	 	var key=argument.key;
+	 	website=hash[key];
+	 	// location.href='http://'+website;//在当前页面地址栏输入（在当前页面打开）
+	 	window.open('http://'+website,'_blank');//在新的页面打开
+
+	 }
+	 
+	 
+	 
+
+		
+	</script>
+</body>
+</html>
