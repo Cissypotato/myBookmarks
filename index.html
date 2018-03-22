@@ -6,14 +6,20 @@
 	<link rel="stylesheet" type="text/css" href="./index.css">
 </head>
 <body>
-	<header></header>
+	<header>
+		<img src="images/logo-2.png">
+		<img src="images/logo-2.png">
+		<p>欢迎来到Cissy私人定制的nav频道！爱您</p>
+		
+	</header>
 	<main>
 		<div id="wrapper"></div>
 	</main>
-	<footer></footer>
+	<footer>© 2014-2018 from Cissy &nbsp;&nbsp;| |&nbsp;&nbsp; 大土豆授权 随便用</footer>
 	
 	<script>
-	 var key={
+	//1.数据初始化
+	 var keys={
 	 	0:['q','w','e','r','t','y','u','i','o','p'],
 	 	1:['a','s','d','f','g','h','j','k','l'],
 	 	2:['z','x','c','v','b','n','m'],
@@ -33,32 +39,67 @@
 	 	a:'acfun.tv',
 	 	s:'sohu.cn',
 	 	z:'zhihu.com',
-	 	m:''
+	 	m:'meituan.com',
+		j:'jd.com',
+		b:'bilibili.com',
+		d:'douyin.com',
+		y:'youku.com'
 	 }
-	 var hashInLocalstorage = JSON.parse(localStorage.getItem('zzz') || 'null');
+	 var hashInLocalstorage = getFromLocalStorage('zzz');
 	 if (hashInLocalstorage) {
 	 	hash=hashInLocalstorage;
 	 }
-	 for(var i=0;i<key.length;i++){
-	 	var row=key[i];
-	 	var divxx=document.createElement('div');
+	 function getFromLocalStorage(name){
+	 	return JSON.parse(localStorage.getItem(name) || 'null');
+	 }
+	 function tag(tagName,attributes){
+	 	var element=document.createElement(tagName);
+	 	for(key in attributes){
+	 		element[key]=attributes[key];
+	 	}
+	 	return element;
+	 }
+
+	 //2.获取kbd
+	 for(var i=0;i<keys.length;i++){
+	 	var row=keys[i];
+	 	var div=tag('div',{className:"row"});
 	    var wrapper=document.getElementById('wrapper');
-        wrapper.appendChild(divxx);
+        wrapper.appendChild(div);
+   
 	 	for(var n=0;n<row.length;n++){
-	 		var kbdxx=document.createElement('kbd');
-	 		var buttonx=document.createElement('button');
-	 		buttonx.textContent="编辑";
-	 		buttonx.id=row[n];
-	 		buttonx.onclick=function(argument){
-	 			var key=argument.target.id;
+	 		var kbd=tag('kbd',{className:'key'});
+
+	 		var button=tag('button',{textContent:"编辑",id:row[n]});
+	 		button.onclick=function(argument){
+	 			var button2=argument.target;
+	 			var img2=button2.previousSibling
+	 			var key=button2.id;
 	 			x=prompt('请输入你想要你保存的快捷网址');
 	 			hash[key]=x;
+	 			img2.onerror=function(argument){
+	 			argument.target.src='./images/img.png';
+	 			}
 	 			localStorage.setItem('zzz',JSON.stringify(hash));
 	 		}
-	 		kbdxx.textContent=row[n];
-	 		kbdxx.appendChild(buttonx);
-	 		divxx.appendChild(kbdxx);
 
+	 		var img=tag('img');
+	 		img.src='http://'+hash[row[n]]+'/favicon.ico';
+	 		if(hash[row[n]]){
+	 			img.src='http://'+hash[row[n]]+'/favicon.ico';
+	 		}else{
+	 			img.src='./images/img.png';
+	 		}
+	 		img.onerror=function(argument){
+	 			argument.target.src='./images/img.png';
+	 		}
+
+	 		var span=tag('span',{textContent:row[n],className:"text"});
+	
+	 		kbd.appendChild(span);
+	 		kbd.appendChild(button);
+	 		kbd.appendChild(img);
+	 		div.appendChild(kbd);
 	    }
 
 	 }
